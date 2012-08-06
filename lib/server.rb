@@ -1,33 +1,48 @@
 require './lib/init'
 
-
-disable :logging
 set :root, File.dirname(__FILE__) + '/../'
 
+# root url, introducing you to Backbone
 get '/' do
-  send_file 'public/index.html'
+  erb :index
 end
 
-get '/participants' do
-  [ Hash['name', 'Ben', 'msisdn', '111'],
-    Hash['name', 'Rup', 'msisdn', '222']
+# This example simple returns a basic file with
+# backbone code embeded. send_file is used so
+# that there is no conflict with the JST
+# (JavaScript Template) ERB syntax
+get '/example1' do
+  send_file 'views/example1.html'
+end
+
+
+# The following methods simulate responses from a database
+
+# list all the items
+get '/items' do
+  [ Hash['name', 'car', 'price', '10.00'],
+    Hash['name', 'boat', 'price', '12.00']
   ].to_json
 end
 
-post '/participants' do
-  puts "post /participants"
+# get an item with id
+get '/items/:id' do
+  Hash['name', 'car', 'price', '10.00'].to_json
 end
 
-post '/participants/:id' do
-  puts "post /participants/:id"
+# create a new item
+post '/items' do
+  puts "post /items"
 end
 
-put '/participants' do
-  puts "put /participants"
+# update an item
+put '/items/:id' do
+  puts "put /items"
 end
 
-put '/participants/:id' do
-  puts "put /participants/:id"
+# delete an item
+delete '/items/:id' do
+  puts "delete /items/:id"
 end
 
 get '/favicon.ico' do
